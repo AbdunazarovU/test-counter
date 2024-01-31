@@ -1,3 +1,4 @@
+import { useState } from "react"
 import "./app.css"
 
 // class User extends Component {
@@ -59,13 +60,33 @@ import "./app.css"
 // }
 
 const User = ({ firstName, lastName, link }) => {
+  const [counter, setCounter] = useState(0)
+  const [age, setAge] = useState(21);
+
+  const onIncrement = () => {
+    setCounter(prevCounter => prevCounter + 1)
+  }
+  const onDecrement = () => {
+    setCounter(prevCounter => prevCounter - 1)
+  }
+  const onReset = () => {
+    setCounter(0)
+  }
+
   return (
     <div className="w-50 mx-auto">
       <div className="border p-3 mt-2">
         <h1>
-          Mening ismim - {firstName}, sharifim {lastName}
+          Mening ismim - {firstName}, sharifim {lastName}, yoshim {age} da.
         </h1>
         <a href={link}>YouTube kanalim</a>
+
+        <p className="text-center">{counter}</p>
+        <div className="d-flex justify-content-center">
+          <button onClick={onIncrement} className="btn btn-success">+</button>
+          <button onClick={onDecrement} className="btn btn-danger mx-2">-</button>
+          <button onClick={onReset} className="btn btn-info">0</button>
+        </div>
       </div>
     </div>
   )
