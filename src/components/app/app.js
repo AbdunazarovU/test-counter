@@ -61,8 +61,17 @@ import "./app.css"
 
 const User = ({ firstName, lastName, link }) => {
   const [counter, setCounter] = useState(0)
-  const [age, setAge] = useState(21);
+  const [login, setLogin] = useState(false)
 
+  // const [state, setState] = useState({
+  //   counter: 0,
+  //   isLogin: false,
+  // })
+
+  // const onIncrement = () => {
+  //   console.log(state)
+  //   setState(prevState => ({...prevState ,counter: prevState.counter + 1}))
+  // }
   const onIncrement = () => {
     setCounter(prevCounter => prevCounter + 1)
   }
@@ -73,11 +82,15 @@ const User = ({ firstName, lastName, link }) => {
     setCounter(0)
   }
 
+  const onToggleLogin = () => {
+    setLogin(prevState => !prevState)
+  }
+
   return (
     <div className="w-50 mx-auto">
       <div className="border p-3 mt-2">
         <h1>
-          Mening ismim - {firstName}, sharifim {lastName}, yoshim {age} da.
+          Mening ismim - {firstName}, sharifim {lastName}.
         </h1>
         <a href={link}>YouTube kanalim</a>
 
@@ -86,6 +99,11 @@ const User = ({ firstName, lastName, link }) => {
           <button onClick={onIncrement} className="btn btn-success">+</button>
           <button onClick={onDecrement} className="btn btn-danger mx-2">-</button>
           <button onClick={onReset} className="btn btn-info">0</button>
+        </div>
+
+        {login ? <p className="text-center my-3">LOGIN</p> : null}
+        <div className="d-flex justify-content-center mt-3">
+          <button onClick={onToggleLogin} className="btn btn-outline-primary">TOGGLE</button>
         </div>
       </div>
     </div>
