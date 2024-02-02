@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react"
+import { useState, useCallback } from "react"
+import CounterItem from "../counter-item/counter-item"
 import "./app.css"
 
 // class User extends Component {
@@ -75,81 +76,41 @@ import "./app.css"
 //   }
 // }
 
-const User = ({ firstName, lastName, link }) => {
+const User = () => {
   const [counter, setCounter] = useState(0)
-  const [login, setLogin] = useState(false)
+  const [active, setActive] = useState(true)
 
-  // const [state, setState] = useState({
-  //   counter: 0,
-  //   isLogin: false,
-  // })
-
-  // const onIncrement = () => {
-  //   console.log(state)
-  //   setState(prevState => ({...prevState ,counter: prevState.counter + 1}))
-  // }
   const onIncrement = () => {
     setCounter(prevCounter => prevCounter + 1)
   }
-  const onDecrement = () => {
-    setCounter(prevCounter => prevCounter - 1)
-  }
-  const onReset = () => {
-    setCounter(0)
+  const onToggle = () => {
+    setActive(prevCounter => !prevCounter)
   }
 
-  const onToggleLogin = () => {
-    setLogin(prevState => !prevState)
+  const counterGenerate = useCallback(() => {
+    return new Array(counter).fill("").map((_, idx) =>  `Counter number ${idx + 1}`)
+  }, [counter])
+
+  const colors = {
+    color: active ? "green" : "red",
   }
-
-  useEffect(() => {
-    console.log("effect")
-    document.title = "Counter: " + counter
-
-    return () => console.log("Unmount (Deleted)")
-  }, [login]);
 
   return (
     <div className="w-50 mx-auto">
-      <div className="border p-3 mt-2">
-        <h1>
-          Mening ismim - {firstName}, sharifim {lastName}.
-        </h1>
-        <a href={link}>YouTube kanalim</a>
-
-        <p className="text-center">{counter}</p>
+      <div className="border p-3 mt-2 fw-bolder " >
+        <p className="text-center" style={colors}>User activeted: {counter}</p>
         <div className="d-flex justify-content-center">
-          <button onClick={onIncrement} className="btn btn-success">+</button>
-          <button onClick={onDecrement} className="btn btn-danger mx-2">-</button>
-          <button onClick={onReset} className="btn btn-info">0</button>
+          <button onClick={onIncrement} className="btn btn-success">Increase</button>
+          <button onClick={onToggle} className="btn btn-warning mx-2">Toggle</button>
         </div>
-
-        {login ? <p className="text-center my-3">LOGIN</p> : null}
-        <div className="d-flex justify-content-center mt-3">
-          <button onClick={onToggleLogin} className="btn btn-outline-primary">TOGGLE</button>
-        </div>
+        <CounterItem counterGenerate={counterGenerate} />
       </div>
     </div>
   )
 }
 
 const App = () => {
-  const [display, setDisplay] = useState(true)
-
-  const deleteDisplayHandler = () => {
-    setDisplay(prevState => !prevState)
-  }
-
-  return (
-    <>
-      <div className="text-center my-3">
-        <button className="btn btn-outline-primary" onClick={deleteDisplayHandler} >Click</button>
-      </div>
-      {display && (
-        <User firstName="Ulug'bek" lastName={"Abdunazarov"} link={"youtube.com"} />
-      )}
-    </>
-  )
+  return <User firstName="Ulug'bek" lastName={"Abdunazarov"} link={"youtube.com"} />
 }
 
 export default App
